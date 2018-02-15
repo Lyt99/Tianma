@@ -7,7 +7,7 @@ namespace Tianma
 {
     public class Main
     {
-        private static Harmony.HarmonyInstance harmony_ins = HarmonyInstance.Create("pw.baka.tianma.core");
+        private static HarmonyInstance harmonyIns = HarmonyInstance.Create("pw.baka.tianma.core");
 
         public static void Unity_Debug_Log_Entry(object message)
         {
@@ -16,18 +16,27 @@ namespace Tianma
             {
                 Debug.Log("Initializing Tianma...");
                 //初始化，Hook几个关键方法
+                //不过有点丑，尝试更优雅的方法
                 //AccessTool真好用
                 //UserCenter.Init(string key, string appId)
+                Debug.Log("Patching Main Entry...");
                 MethodInfo method_init = AccessTools.Method(typeof(UserCenter), "Init");
-                MethodInfo method_init_prefix = AccessTools.Method(typeof(Patches), "MainEntry");
-                harmony_ins.Patch(method_init, new HarmonyMethod(method_init_prefix), null);
+                MethodInfo method_init_prefix = AccessTools.Method(typeof(Tianma.Patches), "MainEntry");
+                harmonyIns.Patch(method_init, new HarmonyMethod(method_init_prefix), null);
 
-                //ConnectionController.EnqueueAndRequest(Request request = null)
-                MethodInfo method_ear = AccessTools.Method(typeof(ConnectionController), "EnqueueAndRequest");
-                MethodInfo method_ear_prefix = AccessTools.Method(typeof(Patches), "EnqueueAndRequest_Prefix");
-                harmony_ins.Patch(method_ear, new HarmonyMethod(method_ear_prefix), null);
+                //UnityEngine.WWW .ctor(string url, UnityEngine.WWWForm form)
+                Debug.Log("Patching WWW_Ctor_Prefix...");
+                ConstructorInfo method_WWW_ctor = AccessTools.Constructor(typeof(WWW), new Type[] { typeof(string), typeof(WWWForm) });
+                MethodInfo method_WWW_ctor_prefix = AccessTools.Method(typeof(Tianma.Patches), "WWW_Ctor_Prefix");
+                harmonyIns.Patch(method_WWW_ctor, new HarmonyMethod(method_WWW_ctor_prefix), null);
 
-                Debug.Log("Patching OK!");
+                //UnityEngine.WWW get_text()
+                Debug.Log("Patching WWW_Get_Text_Postfix...");
+                MethodInfo method_WWW_get_text = AccessTools.Method(typeof(WWW), "get_text");
+                MethodInfo method_WWW_get_text_postfix = AccessTools.Method(typeof(Tianma.Patches), "WWW_Get_Text_Postfix");
+                harmonyIns.Patch(method_WWW_get_text, null, new HarmonyMethod(method_WWW_get_text_postfix));
+
+                Debug.Log("Patching Done!");
             }
         }
     }

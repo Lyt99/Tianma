@@ -8,6 +8,6 @@ namespace Tianma
     class Config
     {
         public static string VERSION = "0.0.1";
-        public static string DATA_PATH = "/sdcard";
+        public static string DATA_PATH = "/storage/emulated/0/Tianma";
     }
 }

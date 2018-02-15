@@ -1,6 +1,6 @@
 using System.Text;
 using System.IO;
-using System.Diagnostics;
+using UnityEngine;
 using System;
 
 namespace Tianma
@@ -11,16 +11,17 @@ namespace Tianma
     public class Logger
     {
 
-        private static readonly string logpath =  Config.DATA_PATH + @"/log.txt";
+        private static readonly string logPath =  Config.DATA_PATH + @"/log.txt";
 
         /// <summary>
-        /// 记录日志信息至Log.txt
+        /// 记录日志信息至数据目录下的log.txt
         /// </summary>
-        /// <param name="str">信息</param>
-        public static void Log(object str)
+        /// <param name="value">信息</param>
+        public static void Log(object value)
         {
-            FileStream fs = new FileStream(logpath, FileMode.Append);
-            var w = Encoding.Default.GetBytes(str.ToString() + '\n');
+            Debug.Log(value);
+            FileStream fs = new FileStream(logPath, FileMode.Append);
+            var w = Encoding.Default.GetBytes(value.ToString() + '\n');
             fs.Write(w, 0, w.Length);
             fs.Close();
         }
@@ -31,11 +32,10 @@ namespace Tianma
         /// <param name="e">错误</param>
         public static void LogError(Exception err)
         {
-            StackTrace st = new StackTrace();
-            string errorMethod = st.GetFrames()[2].GetMethod().Name;
             StringBuilder errsb = new StringBuilder();
-            errsb.Append("**************Tianma 运行错误***************\n");
-            errsb.Append("错误(可能)产生于: " + errorMethod);
+            errsb.Append("************** Tianma 运行错误***************\n");
+            errsb.Append("StackTrace:\n");
+            errsb.Append(err.StackTrace);
             errsb.Append('\n');
             errsb.Append("错误详细信息:\n" + err.ToString());
             errsb.Append('\n');
