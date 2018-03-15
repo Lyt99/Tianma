@@ -1,7 +1,7 @@
 using AC;
 using ICSharpCode.SharpZipLib.GZip;
+using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
@@ -25,7 +25,7 @@ namespace Tianma
         /// <returns>路径</returns>
         public static string GetTianmaPath()
         {
-            return Config.DATA_PATH;
+            return Globals.DATA_PATH;
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Tianma
         /// </summary>
         /// <param name="url">原URL</param>
         /// <returns>处理之后的URL</returns>
-        internal static string PrepareURL(string url)
+        public static string PrepareURL(string url)
         {
 
             if (ConnectionController.currentServer != null && !string.IsNullOrEmpty(ConnectionController.currentServer.addr))
@@ -149,6 +149,32 @@ namespace Tianma
             }
             else
                 return url;
+        }
+
+        /// <summary>
+        /// 将一个文本按某个字符分割成最多两份
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="sp"></param>
+        /// <returns></returns>
+        public static string[] Split2(string str, char sp)
+        {
+            string[] s = str.Split(sp);
+            if (s.Length <= 2) return s;
+            else
+            {
+                return new string[] { s[0], String.Join("", s, 1, s.Length - 1)};
+            }
+
+        } 
+
+        /// <summary>
+        /// 获得当前所处服务器
+        /// </summary>
+        /// <returns>服务器</returns>
+        public static Server GetCurrentServer()
+        {
+            return ConnectionController.currentServer;
         }
     }
 }

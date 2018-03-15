@@ -28,5 +28,25 @@ namespace Tianma.API
         {
             Tianma.Utils.MessageBox(message);
         }
+
+        /// <summary>
+        /// 对加密数据进行解密(key为当前用户sign)
+        /// </summary>
+        /// <param name="text">文本</param>
+        /// <returns></returns>
+        public static string AuthCodeDecode(string text)
+        {
+            return Tianma.Utils.AuthCodeDecode(text);
+        }
+
+        /// <summary>
+        /// 对加密数据进行加密(key为当前用户sign)
+        /// </summary>
+        /// <param name="text">文本</param>
+        /// <returns></returns>
+        public static string AuthCodeEncode(string text)
+        {
+            return Tianma.Utils.AuthCodeEncode(text);
+        }
     }
 }

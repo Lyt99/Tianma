@@ -62,7 +62,7 @@ namespace Tianma
         {
             try
             {
-                var ptr = events.Where((p) => p.Key.EventName == eventName && p.Key.EventTag == p.Key.EventTag);
+                var ptr = events.Where((p) => (p.Key.EventName == eventName && p.Key.EventTag == eventTag));
                 if (ptr.Any())
                 {
                     events[ptr.First().Key] = Delegate.Combine(events[ptr.First().Key], method);
@@ -112,11 +112,12 @@ namespace Tianma
         public void InvokeEvent(string eventName, string eventTag, params object[] args)
         {
             //如果存在再推送
-            var ptr = events.Where((p) => p.Key.EventName == eventName && (p.Key.EventTag == p.Key.EventTag || p.Key.EventTag == null));//如果EventTag是null的，默认全推送
-
-            if (ptr.Any())
-                foreach(var i in ptr)
-                    i.Value.DynamicInvoke(new object[] { args });
+            foreach(var p in events)
+            {
+                if (p.Key.EventName == eventName)
+                    if (p.Key.EventTag == eventTag || p.Key.EventTag == null) //eventTag相符或者是为null时分发
+                        p.Value.DynamicInvoke(new object[] { args });
+            }
         }
 
     }

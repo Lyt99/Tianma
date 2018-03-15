@@ -11,7 +11,7 @@ namespace Tianma.API
     public class Logger
     {
 
-        private static readonly string logPath =  Config.DATA_PATH + @"/log.txt";
+        private static readonly string logPath =  Globals.DATA_PATH + @"/log.txt";
 
         /// <summary>
         /// 记录日志信息至数据目录下的log.txt

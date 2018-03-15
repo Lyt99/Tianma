@@ -12,7 +12,7 @@ namespace Tianma
     /// </summary>
     class PluginManager
     {
-        public static readonly PluginManager INSTANCE = new PluginManager(System.IO.Path.Combine(Config.DATA_PATH, "Plugins"));
+        public static readonly PluginManager INSTANCE = new PluginManager(System.IO.Path.Combine(Globals.DATA_PATH, "Plugins"));
 
         private DirectoryInfo dirInfo;
         private List<Plugin> pluginList = new List<Plugin>();

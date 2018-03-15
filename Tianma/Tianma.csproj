@@ -33,33 +33,41 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\References\0Harmony.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\References\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="AuthCode">
       <HintPath>..\References\AuthCode.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="LitJson">
       <HintPath>..\References\LitJson.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="UnityEngine">
       <HintPath>..\References\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Attributes\RegisterEventAttribute.cs" />
     <Compile Include="API\Attributes\RegisterWWWReceive.cs" />
     <Compile Include="API\Attributes\RegisterWWWSend.cs" />
+    <Compile Include="API\ConfigManager.cs" />
     <Compile Include="API\Enums\EventType.cs" />
+    <Compile Include="API\Enums\RequestUrls.cs" />
     <Compile Include="API\EventResults\EventWWWSend.cs" />
     <Compile Include="API\EventResults\EventWWWReceive.cs" />
     <Compile Include="API\Utils.cs" />
     <Compile Include="AssemblyLoader.cs" />
     <Compile Include="API\Attributes\PluginMainAttribute.cs" />
+    <Compile Include="Exceptions\TianmaException.cs" />
+    <Compile Include="Globals.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="ConfigManager.cs" />
     <Compile Include="EventManager.cs" />
     <Compile Include="Exceptions\PluginLoadException.cs" />
     <Compile Include="API\Logger.cs" />

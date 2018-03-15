@@ -13,14 +13,14 @@ namespace Tianma
         {
             //入口，负责插件的加载和初始化
             PluginManager.INSTANCE.Refersh(); //在这里加载插件
-            ConnectionController.print(String.Format("Tianma {0} ready. {1} plugin(s) loaded.", Config.VERSION, PluginManager.INSTANCE.PluginCount));
+            ConnectionController.print(String.Format("Tianma {0} ready. {1} plugin(s) loaded.", Globals.VERSION, PluginManager.INSTANCE.PluginCount));
+            ResCenter.NORMAL = Globals.CONFIG_MANAGER.GetConfig("antihexie", "true") == "true";
 
         }
 
-        public static void WWW_Ctor_Prefix(string url, ref WWWForm form)
+        public static void WWW_Ctor_Prefix(ref string url, ref WWWForm form)
         {
-            Debug.Log("WWW_Ctor_Prefix: " + form.ToString());
-            url = Utils.PrepareURL(url);
+            string prepared_url = Utils.PrepareURL(url);
             Dictionary<string, string> data = new Dictionary<string, string>();
             var d = Encoding.Default.GetString(form.data).Split('&');
             foreach (var i in d)
@@ -32,22 +32,21 @@ namespace Tianma
             API.EventResults.EventWWWSend res = new API.EventResults.EventWWWSend
             {
                 Data = data,
-                Url = url
+                Url = prepared_url
             };
 
-            EventManager.INSTANCE.InvokeEvent(API.Enums.EventType.WWWSend, url, res);
+            EventManager.INSTANCE.InvokeEvent(API.Enums.EventType.WWWSend, prepared_url, res);
             WWWForm newform = new WWWForm();
-            Debug.Log("Result: " + res.Data.Keys.ToString());
             foreach (var i in res.Data)
             {
                 newform.AddField(i.Key, i.Value);
             }
             form = newform;
+            url = (url == prepared_url || res.Url.Contains("://")) ? res.Url : Utils.GetCurrentServer().addr + res.Url;
         }
 
         public static void WWW_Get_Text_Postfix(WWW __instance, ref string __result)
         {
-            Debug.Log("WWW_Get_Text_Postfix: " + __instance.ToString());
             string url = Utils.PrepareURL(__instance.url);
             string data = Utils.AuthCodeWiseDecode(__result);
             bool encryptFlag = (data != __result);

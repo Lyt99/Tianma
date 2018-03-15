@@ -6,11 +6,11 @@ namespace Tianma.API.Enums
         /// <summary>
         /// 向服务器发送请求
         /// </summary>
-        public static readonly string WWWSend = "WWWSend";
+        public const string WWWSend = "WWWSend";
 
         /// <summary>
         /// 获得服务器请求结果
         /// </summary>
-        public static readonly string WWWReceive = "WWWReceive";
+        public const string WWWReceive = "WWWReceive";
     }
 }

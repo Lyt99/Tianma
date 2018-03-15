@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Tianma.Exceptions
 {
-    class PluginLoadException : TianmaException
+    class TianmaException : Exception
     {
-        public PluginLoadException(string message) : base(message) { }
+        public TianmaException(string message) : base(message) { }
     }
 }

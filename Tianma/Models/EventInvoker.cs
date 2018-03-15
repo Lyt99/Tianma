@@ -26,6 +26,7 @@ namespace Tianma.Models
 
         public void Invoke(object[] pars)
         {
+            UnityEngine.Debug.Log(String.Format("Invoking {0} (par[0]: {1})", this.mb, pars[0]));
             mb.Invoke(instance, pars);
         }
 

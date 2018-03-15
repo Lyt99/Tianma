@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Harmony;
 using System.Reflection;
+using System.IO;
 
 namespace Tianma
 {
@@ -15,9 +16,11 @@ namespace Tianma
             if(message.ToString().Contains("初始化SDK"))
             {
                 Debug.Log("Initializing Tianma...");
-                //初始化，Hook几个关键方法
-                //不过有点丑，尝试更优雅的方法
-                //AccessTool真好用
+
+                if (!Directory.Exists(Globals.DATA_PATH)) Directory.CreateDirectory(Globals.DATA_PATH); //如果没有数据文件夹，就创建
+                Config.INSTANCE.Refresh(); //刷新配置信息
+                
+                //Hook几个关键方法
                 //UserCenter.Init(string key, string appId)
                 Debug.Log("Patching Main Entry...");
                 MethodInfo method_init = AccessTools.Method(typeof(UserCenter), "Init");

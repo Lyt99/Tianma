@@ -12,7 +12,7 @@ namespace Tianma.API.Attributes
 
         public RegisterWWWReceive() : base(API.Enums.EventType.WWWReceive) { }
 
-        public RegisterWWWReceive(string url) : base(API.Enums.EventType.WWWSend) { this.Url = url; }
+        public RegisterWWWReceive(string url) : base(API.Enums.EventType.WWWReceive) { this.Url = url; }
 
         public override string EventTag
         {
