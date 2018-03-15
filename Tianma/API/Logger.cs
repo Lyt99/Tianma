@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine;
 using System;
 
-namespace Tianma
+namespace Tianma.API
 {
     /// <summary>
     /// 日志

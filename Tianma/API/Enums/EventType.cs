@@ -1,7 +1,7 @@
 using System;
 namespace Tianma.API.Enums
 {
-    class EventType
+    public class EventType
     {
         /// <summary>
         /// 向服务器发送请求

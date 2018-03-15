@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Tianma.API.EventResults
 {
-    class EvnetWWWReceive
+    public class EventWWWReceive
     {
         public string Url;
         public string Data;

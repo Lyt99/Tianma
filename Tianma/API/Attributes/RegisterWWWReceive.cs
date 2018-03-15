@@ -6,23 +6,19 @@ using System.Text;
 
 namespace Tianma.API.Attributes
 {
-    class RegisterWWWReceive : RegisterEventAttribute
+    public class RegisterWWWReceive : RegisterEventAttribute
     {
-        public string Url;
+        public string Url = null;
 
         public RegisterWWWReceive() : base(API.Enums.EventType.WWWReceive) { }
 
-        public override bool Check(MethodInfo method)
-        {
-            if (String.IsNullOrEmpty(this.Url)) return false;
-            return true;
-        }
+        public RegisterWWWReceive(string url) : base(API.Enums.EventType.WWWSend) { this.Url = url; }
 
-        public override string EventType
+        public override string EventTag
         {
             get
             {
-                return EventType + Url;
+                return Url;
             }
         }
     }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Tianma.API.EventResults
 {
-    class EventWWWSend
+    public class EventWWWSend
     {
         public string Url;
         public Dictionary<string, string> Data;

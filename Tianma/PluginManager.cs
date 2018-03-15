@@ -12,7 +12,7 @@ namespace Tianma
     /// </summary>
     class PluginManager
     {
-        public static readonly PluginManager INSTANCE = new PluginManager(Config.DATA_PATH);
+        public static readonly PluginManager INSTANCE = new PluginManager(System.IO.Path.Combine(Config.DATA_PATH, "Plugins"));
 
         private DirectoryInfo dirInfo;
         private List<Plugin> pluginList = new List<Plugin>();
@@ -30,7 +30,7 @@ namespace Tianma
             if (!this.dirInfo.Exists) //不存在即创建
             {
                 this.dirInfo.Create();
-                this.dirInfo.Refresh();
+                //this.dirInfo.Refresh();
             }
             else
             {
@@ -41,11 +41,12 @@ namespace Tianma
                         Assembly asm = AssemblyLoader.LoadAssembly(fi.FullName);
                         if (asm == null) throw new Exceptions.PluginLoadException(String.Format("无法加载 {0} 为Assembly", fi.Name));
                         Plugin plugin = new Plugin(asm, fi.Name);
+                        UnityEngine.Debug.Log(String.Format("Loaded Plugin: {0}", plugin.Name));
                         this.pluginList.Add(plugin);
                     }
                     catch (Exception e)
                     {
-                        Logger.LogError(e);
+                        API.Logger.LogError(e);
                     }
                 }
             }
@@ -70,9 +71,9 @@ namespace Tianma
         /// <summary>
         /// 插件列表
         /// </summary>
-        public List<Plugin> PluginList
+        public Plugin[] Plugins
         {
-            get { return this.pluginList; }
+            get { return this.pluginList.ToArray(); }
         } 
 
     }

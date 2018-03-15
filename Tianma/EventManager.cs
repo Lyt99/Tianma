@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
+using Tianma.Models;
+using Tianma.API;
 
 namespace Tianma
 {
@@ -14,7 +16,7 @@ namespace Tianma
 
         public static readonly EventManager INSTANCE = new EventManager();
 
-        private Dictionary<string, Delegate> events = new Dictionary<string, Delegate>();
+        private Dictionary<EventType, Delegate> events = new Dictionary<EventType, Delegate>();
 
 
         /// <summary>
@@ -31,7 +33,7 @@ namespace Tianma
                 API.Attributes.RegisterEventAttribute attr = i.GetCustomAttributes(typeof(API.Attributes.RegisterEventAttribute), true).First() as API.Attributes.RegisterEventAttribute;
                 if (attr.Check(i))
                 {
-                    this.RegisterEvent(attr.EventType, instance, i);
+                    this.RegisterEvent(attr.EventName, attr.EventTag, instance, i);
                 }
                 else
                 {
@@ -45,9 +47,9 @@ namespace Tianma
         /// </summary>
         /// <param name="eventType">事件类型</param>
         /// <param name="method">方法</param>
-        public bool RegisterEvent(string eventType, Action method)
+        public bool RegisterEvent(string eventName, string eventTag, Action method)
         {
-            return this.RegisterEvent(eventType, (Delegate)method);
+            return this.RegisterEvent(eventName, eventTag, (Delegate)method);
         }
 
         /// <summary>
@@ -56,17 +58,19 @@ namespace Tianma
         /// <param name="eventType">事件类型</param>
         /// <param name="method">方法</param>
         /// <returns></returns>
-        public bool RegisterEvent(string eventType, Delegate method)
+        public bool RegisterEvent(string eventName, string eventTag, Delegate method)
         {
             try
             {
-                if (events.ContainsKey(eventType))
+                var ptr = events.Where((p) => p.Key.EventName == eventName && p.Key.EventTag == p.Key.EventTag);
+                if (ptr.Any())
                 {
-                    events[eventType] = Delegate.Combine(events[eventType], method);
+                    events[ptr.First().Key] = Delegate.Combine(events[ptr.First().Key], method);
                 }
                 else
                 {
-                    events.Add(eventType, method);
+                    EventType et = new EventType() { EventName = eventName, EventTag = eventTag };
+                    events.Add(et, method);
                 }
 
                 return true;
@@ -85,12 +89,13 @@ namespace Tianma
         /// <param name="classInstance">类的实例</param>
         /// <param name="method">方法</param>
         /// <returns></returns>
-        public bool RegisterEvent(string eventType, object classInstance, MethodInfo method)
+        public bool RegisterEvent(string eventName, string eventTag, object classInstance, MethodInfo method)
         {
             try
             {
-                Delegate @delegate = Delegate.CreateDelegate(typeof(Delegate), classInstance, method);
-                return this.RegisterEvent(eventType, @delegate);
+                EventInvoker ei = new EventInvoker(method, classInstance);
+                Delegate @delegate = Delegate.CreateDelegate(typeof(EventInvoker.InvokerDelegate), ei, EventInvoker.getMethodInfo());
+                return this.RegisterEvent(eventName, eventTag, @delegate);
             }
             catch(Exception e)
             {
@@ -104,11 +109,14 @@ namespace Tianma
         /// </summary>
         /// <param name="eventType">事件类型</param>
         /// <param name="args">参数</param>
-        public void InvokeEvent(string eventType, params object[] args)
+        public void InvokeEvent(string eventName, string eventTag, params object[] args)
         {
             //如果存在再推送
-            if(events.ContainsKey(eventType))
-                events[eventType].DynamicInvoke(args);
+            var ptr = events.Where((p) => p.Key.EventName == eventName && (p.Key.EventTag == p.Key.EventTag || p.Key.EventTag == null));//如果EventTag是null的，默认全推送
+
+            if (ptr.Any())
+                foreach(var i in ptr)
+                    i.Value.DynamicInvoke(new object[] { args });
         }
 
     }

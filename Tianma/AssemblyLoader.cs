@@ -34,7 +34,7 @@ namespace Tianma
             }
             catch(Exception e)
             {
-                Logger.LogError(e);
+                API.Logger.LogError(e);
                 return null;
             }
         }

@@ -11,7 +11,7 @@
     <AssemblyName>Tianma</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,16 +54,18 @@
     <Compile Include="API\Attributes\RegisterWWWSend.cs" />
     <Compile Include="API\Enums\EventType.cs" />
     <Compile Include="API\EventResults\EventWWWSend.cs" />
-    <Compile Include="API\EventResults\EvnetWWWReceive.cs" />
+    <Compile Include="API\EventResults\EventWWWReceive.cs" />
+    <Compile Include="API\Utils.cs" />
     <Compile Include="AssemblyLoader.cs" />
-    <Compile Include="AssemblyLoader_Old.cs" />
     <Compile Include="API\Attributes\PluginMainAttribute.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="ConfigManager.cs" />
     <Compile Include="EventManager.cs" />
     <Compile Include="Exceptions\PluginLoadException.cs" />
-    <Compile Include="Globals.cs" />
-    <Compile Include="Logger.cs" />
+    <Compile Include="API\Logger.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="Models\EventInvoker.cs" />
+    <Compile Include="Models\EventType.cs" />
     <Compile Include="Models\Plugin.cs" />
     <Compile Include="Patches.cs" />
     <Compile Include="PluginManager.cs" />

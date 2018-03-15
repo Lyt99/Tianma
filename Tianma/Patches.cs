@@ -19,6 +19,7 @@ namespace Tianma
 
         public static void WWW_Ctor_Prefix(string url, ref WWWForm form)
         {
+            Debug.Log("WWW_Ctor_Prefix: " + form.ToString());
             url = Utils.PrepareURL(url);
             Dictionary<string, string> data = new Dictionary<string, string>();
             var d = Encoding.Default.GetString(form.data).Split('&');
@@ -34,9 +35,10 @@ namespace Tianma
                 Url = url
             };
 
-            EventManager.INSTANCE.InvokeEvent(API.Enums.EventType.WWWSend + url, res);
+            EventManager.INSTANCE.InvokeEvent(API.Enums.EventType.WWWSend, url, res);
             WWWForm newform = new WWWForm();
-            foreach (var i in data)
+            Debug.Log("Result: " + res.Data.Keys.ToString());
+            foreach (var i in res.Data)
             {
                 newform.AddField(i.Key, i.Value);
             }
@@ -45,16 +47,17 @@ namespace Tianma
 
         public static void WWW_Get_Text_Postfix(WWW __instance, ref string __result)
         {
+            Debug.Log("WWW_Get_Text_Postfix: " + __instance.ToString());
             string url = Utils.PrepareURL(__instance.url);
             string data = Utils.AuthCodeWiseDecode(__result);
-            bool encryptFlag = (data == __result);
-            API.EventResults.EvnetWWWReceive res = new API.EventResults.EvnetWWWReceive()
+            bool encryptFlag = (data != __result);
+            API.EventResults.EventWWWReceive res = new API.EventResults.EventWWWReceive()
             {
                 Url = url,
                 Data = data
             };
 
-            EventManager.INSTANCE.InvokeEvent(API.Enums.EventType.WWWReceive + url, res);
+            EventManager.INSTANCE.InvokeEvent(API.Enums.EventType.WWWReceive, url, res);
 
             __result = encryptFlag ? Utils.AuthCodeEncode(res.Data) : res.Data;
         }

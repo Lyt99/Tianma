@@ -7,7 +7,7 @@ namespace Tianma.API.Attributes
     /// 插件主类和入口点，会在加载后创建一个实例
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-    class PluginMainAttribute : Attribute
+    public class PluginMainAttribute : Attribute
     {
         private string name;
         private string author;

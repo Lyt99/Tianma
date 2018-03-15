@@ -20,10 +20,10 @@ namespace Tianma
         }
 
         /// <summary>
-        /// 获得GFHooker数据存储路径
+        /// 获得Tianma数据存储路径
         /// </summary>
         /// <returns>路径</returns>
-        public static string GetGFHookerPath()
+        public static string GetTianmaPath()
         {
             return Config.DATA_PATH;
         }

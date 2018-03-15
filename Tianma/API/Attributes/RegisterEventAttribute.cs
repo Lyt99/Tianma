@@ -4,10 +4,11 @@ using System.Reflection;
 namespace Tianma.API.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = true)]
-    class RegisterEventAttribute : Attribute
+    public class RegisterEventAttribute : Attribute
     {
 
-        private string eventType;
+        private string eventName;
+        private string eventTag = null;
 
         /// <summary>
         /// 注册事件
@@ -16,7 +17,7 @@ namespace Tianma.API.Attributes
         /// <param name=""></param>
         public RegisterEventAttribute(string eventType)
         {
-            this.eventType = eventType;
+            this.eventName = eventType;
         }
 
         /// <summary>
@@ -28,11 +29,19 @@ namespace Tianma.API.Attributes
             return true;
         }
 
-        public virtual string EventType
+        public virtual string EventName
         {
             get
             {
-                return this.eventType;
+                return this.eventName;
+            }
+        }
+
+        public virtual string EventTag
+        {
+            get
+            {
+                return this.eventTag;
             }
         }
     }
