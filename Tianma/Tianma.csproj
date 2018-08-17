@@ -33,7 +33,7 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\References\0Harmony.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\References\Assembly-CSharp.dll</HintPath>
@@ -47,6 +47,10 @@
       <HintPath>..\References\LitJson.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="SharpZipLib">
+      <HintPath>..\References\SharpZipLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="UnityEngine">
       <HintPath>..\References\UnityEngine.dll</HintPath>
@@ -54,17 +58,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyLoader.cs" />
+    <Compile Include="API\Attributes\PluginMainAttribute.cs" />
     <Compile Include="API\Attributes\RegisterEventAttribute.cs" />
     <Compile Include="API\Attributes\RegisterWWWReceive.cs" />
     <Compile Include="API\Attributes\RegisterWWWSend.cs" />
     <Compile Include="API\ConfigManager.cs" />
     <Compile Include="API\Enums\EventType.cs" />
     <Compile Include="API\Enums\RequestUrls.cs" />
-    <Compile Include="API\EventResults\EventWWWSend.cs" />
     <Compile Include="API\EventResults\EventWWWReceive.cs" />
-    <Compile Include="API\Utils.cs" />
-    <Compile Include="AssemblyLoader.cs" />
-    <Compile Include="API\Attributes\PluginMainAttribute.cs" />
+    <Compile Include="API\EventResults\EventWWWSend.cs" />
     <Compile Include="Exceptions\TianmaException.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Config.cs" />
@@ -78,6 +81,7 @@
     <Compile Include="Patches.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="API\Utils.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup />

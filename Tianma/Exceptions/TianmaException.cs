@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Tianma.Exceptions
 {
-    class TianmaException : Exception
+    public class TianmaException : Exception
     {
         public TianmaException(string message) : base(message) { }
     }

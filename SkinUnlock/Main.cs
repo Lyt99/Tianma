@@ -5,6 +5,8 @@ using Tianma.API.Attributes;
 using Tianma.API.EventResults;
 using Tianma.API;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace SkinUnlock
 {

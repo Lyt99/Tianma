@@ -16,6 +16,11 @@ namespace Tianma
             if(message.ToString().Contains("初始化SDK"))
             {
                 Debug.Log("Initializing Tianma...");
+                if (UnityEngine.SystemInfo.processorType.Contains("ARM"))
+                {
+                    Debug.Log("Set ARM.");
+                    ARMHelper.ARM = true;
+                }
 
                 if (!Directory.Exists(Globals.DATA_PATH)) Directory.CreateDirectory(Globals.DATA_PATH); //如果没有数据文件夹，就创建
                 Config.INSTANCE.Refresh(); //刷新配置信息
